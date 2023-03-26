@@ -1,0 +1,26 @@
+/*
+Color pallete:
+
+Light mode background: #c0cccc
+Dark mode background: #28242c
+Other light grey color: #909ca4
+URL blue: #2596be
+*/
+
+* {
+    font-family: "Georgia";
+}
+
+body {
+    color: #28242c;
+    background-color: #c0cccc;
+}
+
+h1 {
+    font-size: 36pt;
+}
+
+p {
+    font-family: "Century Schoolbook";
+    font-size: 12pt;
+}
