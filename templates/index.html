@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordle</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-
-<body>
-    <a href="{{ url_for('static', filename='templates/game.html') }}">other_page</a>
-    <h1 id="title">Wordle</h1>
-    <hr>
-    <br>
-    <div id="game-board">
-    </div>
-
-    <br>
-    <h1 id="answer"></h1>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
+{% extends "navigation.html" %}
+{% block content %}
+    <h1>How to Play</h1>
+    <p>Instructions on playing the game and details on scoring.</p>
+    <form action="{{ url_for('game') }}">
+        <button id="start-button">Start</button>
+    </form>
+{% endblock %}
