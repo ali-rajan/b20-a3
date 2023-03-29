@@ -24,7 +24,7 @@ hr {
 
 .char_box {
     /* Box */
-    border: 2px solid lightgray;
+    border: 2px solid black;
     width: 60px;
     height: 60px;
     margin: 2.5px;

@@ -22,7 +22,6 @@ const keyboard = [
 
 console.log('script loaded');
 
-<<<<<<< HEAD
 window.onload = function(){
     intialize(height, width);
 }
@@ -205,11 +204,3 @@ function update() {
     row += 1; //start new row
     col = 0; //start at 0 for new row
 }
-=======
-/*
-Game logic:
-    - Get user input (max 5 characters) and render
-    - Change the colour of each box as follows:
-        - If 
-*/
->>>>>>> 399320afcf4b72025d3684db507ec6ae18b305c5
