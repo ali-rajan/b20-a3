@@ -6,15 +6,28 @@ const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
 
 const grid = [];
-const keyboard = [];
 const secretWord = "squid";     // To-do: get this from the database
+const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+    "u", "v", "w", "x", "y", "z"];
+const cursor = {    // Stores the current position of the letter to be typed in the grid
+    row: 0,
+    col: 0
+};
 
 createGrid(GUESSES, WORD_LENGTH);
-createKeyboard();   // To-do
+createKeyboard();
 document.addEventListener("keyup", keyboardInput);
 
 function createGrid(rows, cols)
 {
+    /**
+     * Creates the grid for the word guesses with the specified number of rows and columns. There should be as many
+     * rows as the number of allowed guesses, and as many columns as the length of each word.
+     *
+     * @param {number} rows The number of rows in the grid (a positive integer).
+     * @param {number} cols The number of columns in the grid (a positive integer).
+     */
+
     // Set the number of columns for the CSS grid template
     gridElement.style.setProperty("grid-template-columns", `repeat(${WORD_LENGTH}, 60px)`);
     // Create the cells for the grid with the designated CSS class
@@ -34,9 +47,13 @@ function createGrid(rows, cols)
 
 function createKeyboard()
 {
-    // Text for each of the keys
+    /**
+     * Creates the on-screen keyboard with the layout indicated in the array below.
+     */
+
     const enterText = "Enter";
     const backspaceText = "\u2190";
+    // Text for each of the keys
     const keys = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ""],
@@ -46,7 +63,6 @@ function createKeyboard()
     // Create the keys with the designated event listener for input, CSS class, and ID
     for (let i = 0; i < keys.length; i ++)
     {
-        const row = [];
         for (let j = 0; j < keys[i].length; j ++)
         {
             const key = document.createElement("div");
@@ -71,27 +87,31 @@ function createKeyboard()
             }
 
             keyboardElement.appendChild(key);
-            row.push(key);
         }
-        keyboard.push(row);
     }
 }
 
 function onScreenKeyboardInput(event)
 {
-    event.key = event.target.id;
+    /**
+     * Passes the on-screen keyboard click event to the keyboard event listener as if the equivalent key was pressed on
+     * the physical keyboard.
+     *
+     * @param {KeyboardEvent} event The keyup event for the key pressed.
+     */
+
+    event.key = event.target.id;    // The key attribute is used in the keyboard event listener
     keyboardInput(event);
 }
 
-const letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-    "u", "v", "w", "x", "y", "z"];
-const cursor = {    // Stores the current position of the letter to be typed in the grid
-    row: 0,
-    col: 0
-};
-
 function keyboardInput(event)
 {
+    /**
+     * Handles keyboard input to allow the user to enter the letters of the guessed word.
+     *
+     * @param {KeyboardEvent} event The keyup event for the key pressed.
+     */
+
     if (cursor.row < 0 || cursor.row >= GUESSES)    // All guesses have been used up
     {
         return;
@@ -106,7 +126,7 @@ function keyboardInput(event)
     {
         backspaceCharacter();
     }
-    else if (letters.includes(key.toLowerCase()))
+    else if (LETTERS.includes(key.toLowerCase()))
     {
         inputCharacter(key);
     }
@@ -114,6 +134,11 @@ function keyboardInput(event)
 
 function processWord()
 {
+    /**
+     * Retrieves the guessed word from the cursor's current row, checks which letters match the secret word (if any)
+     * considering order as well, and highlights the cells accordingly.
+     */
+
     if (cursor.col < WORD_LENGTH)  // Not all letters have been entered
     {
         feedbackText.innerText = "Fill in all of the letters";
@@ -157,12 +182,30 @@ function processWord()
 // To-do: get this from the database
 function dictionaryContainsWord(word)
 {
+    /**
+     * Returns whether or not the given word is in the dictionary of guessable words, as stored in the database.
+     *
+     * @param {string} word The word to find in the dictionary.
+     *
+     * @return {boolean} Whether the given word is a guessable word.
+     */
+
     const words = ["squid", "cigar", "sissy", "awake"];
     return words.includes(word);
 }
 
 function highlightCells(guessedWord)
 {
+    /**
+     * Highlights the cell of each letter based on the guessed word as follows:
+     *  - If the letter is in the correct position, the cell is highlighted green
+     *  - If the letter is present in the secret word but in a different position, the cell is highlighted yellow
+     *  - If the letter is not present, the cell is highlighted red
+     *
+     * @param {string} guessedWord The word guessed.
+     */
+
+    // Comparing the guess letter by letter (to change the highlight cell by cell)
     for (let col = 0; col < WORD_LENGTH; col ++)
     {
         const char = guessedWord[col];
@@ -183,6 +226,10 @@ function highlightCells(guessedWord)
 
 function backspaceCharacter()
 {
+    /**
+     * Backspaces (deletes) the letter at the cursor's current position.
+     */
+
     if (cursor.col <= 0)    // The cursor is at the first letter's position
     {
         return;
@@ -196,14 +243,20 @@ function backspaceCharacter()
     }
 }
 
-function inputCharacter(key)
+function inputCharacter(letter)
 {
+    /**
+     * Enters the given letter at the cursor's current position.
+     *
+     * @param {string} letter The letter to enter.
+     */
+
     // The cursor is out of bounds
     if (cursor.row < 0 || cursor.row >= GUESSES || cursor.col < 0 || cursor.col >= WORD_LENGTH)
     {
         return;
     }
 
-    grid[cursor.row][cursor.col].innerText = key;
+    grid[cursor.row][cursor.col].innerText = letter;
     cursor.col ++;
 }
