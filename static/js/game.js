@@ -197,30 +197,56 @@ function dictionaryContainsWord(word)
 function highlightCells(guessedWord)
 {
     /**
-     * Highlights the cell of each letter based on the guessed word as follows:
-     *  - If the letter is in the correct position, the cell is highlighted green
-     *  - If the letter is present in the secret word but in a different position, the cell is highlighted yellow
-     *  - If the letter is not present, the cell is highlighted red
+     * Highlights the cell of each letter and the corresponding on-screen keyboard button based on the guessed word as
+     * follows:
+     *  - If the letter is in the correct position, a green highlight is applied
+     *  - If the letter is present in the secret word but in a different position, a yellow highlight is used
+     *  - If the letter is not present, a red highlight is used
      *
-     * @param {string} guessedWord The word guessed.
+     * @param {string} guessedWord The word guessed, all lowercase.
      */
 
+    resetKeyboardColours();
     // Comparing the guess letter by letter (to change the highlight cell by cell)
     for (let col = 0; col < WORD_LENGTH; col ++)
     {
         const char = guessedWord[col];
+        let colourClass;    // The CSS class to change the highlight colour
         if (char === secretWord[col])   // The letter is in the correct position
         {
-            grid[cursor.row][col].classList.toggle("correct-cell");
+            colourClass = "correct";
+            // grid[cursor.row][col].classList.toggle("correct");
         }
         else if (secretWord.includes(char))     // The letter is in the secret word but not in the right position
         {
-            grid[cursor.row][col].classList.toggle("misplaced-cell");
+            // grid[cursor.row][col].classList.toggle("misplaced");
+            colourClass = "misplaced";
         }
         else    // The letter is not in the secret word
         {
-            grid[cursor.row][col].classList.toggle("incorrect-cell");
+            // grid[cursor.row][col].classList.toggle("incorrect");
+            colourClass = "incorrect";
         }
+        grid[cursor.row][col].classList.toggle(colourClass);
+        // Change the corresponding keyboard button's colour
+        document.getElementById(char).classList.toggle(colourClass);
+    }
+}
+
+function resetKeyboardColours()
+{
+    /**
+     * Resets the highlight colours of each of the keyboard's buttons.
+     */
+
+    const buttons = keyboardElement.children;
+    for (let i = 0; i < buttons.length; i ++)   // Iterate over the buttons and reset their colours
+    {
+        const button = buttons[i];
+        console.log(button.id);
+        button.classList.remove("correct");
+        button.classList.remove("misplaced");
+        button.classList.remove("incorrect");
     }
 }
 
