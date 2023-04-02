@@ -1,12 +1,16 @@
 {% extends "navigation.html" %}
 {% block content %}
-    <h1>Game</h1>
-    <h1 id="title">Wordle</h1>
-        <hr>
+    <div id="game-container">
+        <h1>Totally Not Wordle</h1>
+        <div id="grid"></div>
         <br>
-        <div id="game-board">
-        </div>
+        <div id="keyboard"></div>
+        <h2 id="feedback">Guess a word</h2>
+    </div>
+        <!-- <hr>
         <br>
-        <h1 id="answer"></h1>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script> 
+        <div id="game-board"></div>
+        <br>
+        <h1 id="answer"></h1> -->
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 {% endblock %}

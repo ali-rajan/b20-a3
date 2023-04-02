@@ -1,3 +1,5 @@
+// The game script has been moved to game.js
+
 const height = 6; //number of guesses
 const width = 5; //length of the word
 
@@ -60,7 +62,7 @@ function intialize(number_of_guesses, number_of_chars) {
             }
             else if ("A" <= key && key <= "Z") {
                 keyTile.id = "Key" + key; // "Key" + "A";
-            } 
+            }
 
             keyTile.addEventListener("click", processKey);
 
@@ -73,7 +75,7 @@ function intialize(number_of_guesses, number_of_chars) {
         }
         document.body.appendChild(keyboardRow);
     }
-    
+
 
     // Listen for Key Press
     document.addEventListener("keyup", (e) => {
@@ -87,7 +89,7 @@ function processKey() {
 }
 
 function processInput(e) {
-    if (gameOver) return; 
+    if (gameOver) return;
 
     // alert(e.code);
     if ("KeyA" <= e.code && e.code <= "KeyZ") {
@@ -135,7 +137,7 @@ function update() {
         document.getElementById("answer").innerText = "Not in word list";
         return;
     }
-    
+
     //start processing guess
     let correct = 0;
 
@@ -145,7 +147,7 @@ function update() {
 
         if (letterCount[letter]) {
            letterCount[letter] += 1;
-        } 
+        }
         else {
            letterCount[letter] = 1;
         }
@@ -186,7 +188,7 @@ function update() {
             //Is it in the word?         //make sure we don't double count
             if (word.includes(letter) && letterCount[letter] > 0) {
                 currTile.classList.add("present");
-                
+
                 let keyTile = document.getElementById("Key" + letter);
                 if (!keyTile.classList.contains("correct")) {
                     keyTile.classList.add("present");
