@@ -1,5 +1,6 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: "Georgia", "Century Schoolbook";
     text-align: center;
 }
 
@@ -13,6 +14,7 @@ h1 {
     min-width: 500px;
 }
 
+/* The grid for the letters */
 #grid {
     width: fit-content;
     margin: 0 auto;
@@ -22,6 +24,7 @@ h1 {
     gap: 10px;
 }
 
+/* Each cell in the grid */
 .cell {
     height: 60px;
     width: 60px;
@@ -34,6 +37,7 @@ h1 {
     align-items: center;
 }
 
+/* The on-screen keyboard */
 #keyboard {
     width: fit-content;
     margin: 0 auto;
@@ -46,6 +50,7 @@ h1 {
     gap: 5px;
 }
 
+/* Each button in the on-screen keyboard */
 .key {
     height: 40px;
     width: 40px;
@@ -61,15 +66,16 @@ h1 {
     text-align: center;
 }
 
-.correct-cell {
+/* Classes for the various highlight colors */
+.correct {
     background-color: green;
 }
 
-.misplaced-cell {
+.misplaced {
     background-color: yellow;
 }
 
-.incorrect-cell {
+.incorrect {
     background-color: red;
 }
 
@@ -82,14 +88,12 @@ h1 {
     flex-wrap: wrap;
 }
 
-.char_box {
-    /* Box */
+/* .char_box {
     border: 2px solid black;
     width: 60px;
     height: 60px;
     margin: 2.5px;
 
-    /* Text */
     color: black;
     font-size: 36px;
     font-weight: bold;
@@ -131,7 +135,6 @@ h1 {
     margin: 1px;
     border: 1px solid lightgray;
 
-    /* Text */
     font-size: 20px;
     font-weight: bold;
     display: flex;
@@ -145,10 +148,9 @@ h1 {
     margin: 1px;
     border: 1px solid lightgray;
 
-    /* Text */
     font-size: 20px;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
