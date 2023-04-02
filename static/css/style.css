@@ -3,14 +3,74 @@ body {
     text-align: center;
 }
 
-hr {
-    width: 500px;
-}
-
-#title {
+h1 {
     font-size: 36px;
     font-weight: bold;
     letter-spacing: 2px;
+}
+
+#game-container {
+    min-width: 500px;
+}
+
+#grid {
+    width: fit-content;
+    margin: 0 auto;
+    display: grid;
+
+    grid-template-columns: repeat(6, 60px);     /* This is modified in the script according to the set column count*/
+    gap: 10px;
+}
+
+.cell {
+    height: 60px;
+    width: 60px;
+    border: 2px solid black;
+
+    font-size: 30pt;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#keyboard {
+    width: fit-content;
+    margin: 0 auto;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    gap: 5px;
+}
+
+.key {
+    height: 40px;
+    width: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+}
+
+.correct-cell {
+    background-color: green;
+}
+
+.misplaced-cell {
+    background-color: yellow;
+}
+
+.incorrect-cell {
+    background-color: red;
 }
 
 #game-board {
