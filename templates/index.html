@@ -1,7 +1,18 @@
 {% extends "navigation.html" %}
 {% block content %}
     <h1>How to Play</h1>
-    <p>Instructions on playing the game and details on scoring.</p>
+    <p>Guess the Word in 6 tries.</p>
+    <p>Each guess must be a valid 5-letter word</p>
+    <p>The color of the tiles will change to show how close your guess to the word was</p>
+    <p><b>Examples</b></p>
+    <p>Green means that the letter is in the right position</p>
+    <img src="{{ url_for('static', filename='images/correct-placement.png') }}" class="img-thumbnail" alt="correct_placement" height="200" width="200">
+    <br>
+    <p>Yellow means that the letter is in the word but not in the right position</p>
+    <img src="{{ url_for('static', filename='images/incorrect-placement.png') }}" class="img-thumbnail" alt="incorrect_placement" height="200" width="200">
+    <br>
+    <p>Red means that the letter is not in the word at all</p>
+    <img src="{{ url_for('static', filename='images/incorrect-everything.png') }}" class="img-thumbnail" alt="incorrect_everything" height="200" width="200">
     <form action="{{ url_for('game') }}">
         <button id="start-button">Start</button>
     </form>

@@ -190,7 +190,7 @@ function dictionaryContainsWord(word)
      * @return {boolean} Whether the given word is a guessable word.
      */
 
-    const words = ["squid", "cigar", "sissy", "awake"];
+    const words = ["squid", "cigar", "sissy", "awake", "start", "deals", "queen"];
     return words.includes(word);
 }
 
