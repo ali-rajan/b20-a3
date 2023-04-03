@@ -13,6 +13,9 @@ const cursor = {    // Stores the current position of the letter to be typed in 
     row: 0,
     col: 0
 };
+const CORRECT_COLOUR_CLASS = "correct";
+const MISPLACED_COLOUR_CLASS = "misplaced";
+const INCORRECT_COLOUR_CLASS = "incorrect";
 
 createGrid(GUESSES, WORD_LENGTH);
 createKeyboard();
@@ -206,48 +209,66 @@ function highlightCells(guessedWord)
      * @param {string} guessedWord The word guessed, all lowercase.
      */
 
-    resetKeyboardColours();
+    const letterColourClass = {};   // Maps each character to its most prominent colour class
     // Comparing the guess letter by letter (to change the highlight cell by cell)
     for (let col = 0; col < WORD_LENGTH; col ++)
     {
-        const char = guessedWord[col];
+        const letter = guessedWord[col];
         let colourClass;    // The CSS class to change the highlight colour
-        if (char === secretWord[col])   // The letter is in the correct position
+        if (letter === secretWord[col])     // The letter is in the correct position
         {
-            colourClass = "correct";
-            // grid[cursor.row][col].classList.toggle("correct");
+            colourClass = CORRECT_COLOUR_CLASS;
         }
-        else if (secretWord.includes(char))     // The letter is in the secret word but not in the right position
+        else if (secretWord.includes(letter))   // The letter is in the secret word but not in the right position
         {
-            // grid[cursor.row][col].classList.toggle("misplaced");
-            colourClass = "misplaced";
+            colourClass = MISPLACED_COLOUR_CLASS;
         }
         else    // The letter is not in the secret word
         {
-            // grid[cursor.row][col].classList.toggle("incorrect");
-            colourClass = "incorrect";
+            colourClass = INCORRECT_COLOUR_CLASS;
         }
-        grid[cursor.row][col].classList.toggle(colourClass);
+        grid[cursor.row][col].classList.add(colourClass);
         // Change the corresponding keyboard button's colour
-        document.getElementById(char).classList.toggle(colourClass);
+        const keyButton = document.getElementById(letter);
+        updateKeyColour(keyButton, colourClass, letterColourClass);
     }
 }
 
-function resetKeyboardColours()
+function updateKeyColour(keyButton, colourClass, letterColourClass)
 {
     /**
-     * Resets the highlight colours of each of the keyboard's buttons.
+     * Updates the colour class of the given on-screen keyboard button according to the precedence
+     * correct > misplaced > incorrect. That is, if a letter has been marked with a colour class of higher precedence
+     * than the one we are attempting to set it to, the class is not updated.
+     *
+     * @param {Element} keyButton           The on-screen keyboard button element whose class is to be modified.
+     * @param {string} colourClass          The colour class to apply on the button (while checking the precedence
+     *                                      rules).
+     * @param {Object} letterColourClass    An object mapping each guessed letter to its colour class of highest
+     *                                      precedence.
      */
 
-    const buttons = keyboardElement.children;
-    for (let i = 0; i < buttons.length; i ++)   // Iterate over the buttons and reset their colours
+    const letter = keyButton.id;
+    // The letter has not been highlighted or it is being marked as correct (which takes precedence over other classes)
+    if (colourClass === CORRECT_COLOUR_CLASS || !(letter in letterColourClass))
     {
-        const button = buttons[i];
-        console.log(button.id);
-        button.classList.remove("correct");
-        button.classList.remove("misplaced");
-        button.classList.remove("incorrect");
+        letterColourClass[letter] = colourClass;
     }
+    // The letter was in the wrong position in the current guess and it has not been marked as correct yet
+    else if (letterColourClass[letter] !== CORRECT_COLOUR_CLASS && colourClass === MISPLACED_COLOUR_CLASS)
+    {
+        letterColourClass[letter] = MISPLACED_COLOUR_CLASS;
+    }
+    // The letter is either already marked as misplaced, or it has not been marked and is being set to misplaced
+    else if (letterColourClass[letter] !== MISPLACED_COLOUR_CLASS && colourClass === INCORRECT_COLOUR_CLASS)
+    {
+        letterColourClass[letter] = INCORRECT_COLOUR_CLASS;
+    }
+
+    keyButton.classList.remove(CORRECT_COLOUR_CLASS);
+    keyButton.classList.remove(MISPLACED_COLOUR_CLASS);
+    keyButton.classList.remove(INCORRECT_COLOUR_CLASS);
+    keyButton.classList.add(letterColourClass[letter]);
 }
 
 function backspaceCharacter()
@@ -283,6 +304,6 @@ function inputCharacter(letter)
         return;
     }
 
-    grid[cursor.row][cursor.col].innerText = letter;
+    grid[cursor.row][cursor.col].innerText = letter.toLowerCase();
     cursor.col ++;
 }
