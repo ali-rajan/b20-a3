@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from random import randint
 # from sqlalchemy import exc    # Can be used for exceptions when attempting to insert duplicate entries
 
 database = SQLAlchemy()
@@ -24,12 +25,21 @@ class Word(database.Model):
     :type database: flask_sqlalchemy.extension.SQLAlchemy
     """
 
-    word = database.Column(database.Text, primary_key=True)
+    id = database.Column(database.Integer, primary_key=True, autoincrement=True)    # Used to get a random word
+    word = database.Column(database.Text)
 
     def __init__(self, word):
         self.word = word
 
 
+def get_random_word():
+    num_entries = Word.query.count()
+    word_index = randint(1, num_entries)
+    random_word = Word.query.filter_by(id = word_index).first().word    # Get the word with the specified id
+    return random_word
+
+
+# To-do: check if the word is a duplicate
 def add_word(word: str):
     """Insert the given word into the database of answer words.
 
@@ -39,6 +49,10 @@ def add_word(word: str):
 
     wordEntry = Word(word)
     database.session.add(wordEntry)
+    database.session.commit()
+
+    dictWordEntry = DictionaryWord(word)
+    database.session.add(dictWordEntry)
     database.session.commit()
 
 
