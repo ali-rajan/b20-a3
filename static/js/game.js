@@ -6,7 +6,9 @@ const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
 
 const grid = [];
-const secretWord = "squid";     // To-do: get this from the database
+// const secretWord = "squid";     // To-do: get this from the database
+const secretWord = "{{ secret_word }}";     // Fetched from the database using Flask
+console.log(secretWord);
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
     "u", "v", "w", "x", "y", "z"];
 const cursor = {    // Stores the current position of the letter to be typed in the grid

@@ -28,7 +28,8 @@ def add_word():
 
 @app.route("/game")
 def game():
-    return render_template("game.html")
+    random_word = get_random_word()
+    return render_template("game.html", secret_word=random_word)
 
 
 if __name__ == '__main__':
