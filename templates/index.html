@@ -6,13 +6,13 @@
     <p>The color of the tiles will change to show how close your guess to the word was</p>
     <p><b>Examples</b></p>
     <p>Green means that the letter is in the right position</p>
-    <img src="{{ url_for('static', filename='images/correct-placement.png') }}" class="img-thumbnail" alt="correct_placement" height="200" width="200">
+    <img src="{{ url_for('static', filename='images/correct-placement.png') }}" id="game-img" class="img-thumbnail" alt="correct_placement">
     <br>
     <p>Yellow means that the letter is in the word but not in the right position</p>
-    <img src="{{ url_for('static', filename='images/incorrect-placement.png') }}" class="img-thumbnail" alt="incorrect_placement" height="200" width="200">
+    <img src="{{ url_for('static', filename='images/incorrect-placement.png') }}" id="game-img" class="img-thumbnail" alt="incorrect_placement">
     <br>
     <p>Red means that the letter is not in the word at all</p>
-    <img src="{{ url_for('static', filename='images/incorrect-everything.png') }}" class="img-thumbnail" alt="incorrect_everything" height="200" width="200">
+    <img src="{{ url_for('static', filename='images/incorrect-everything.png') }}" id="game-img" class="img-thumbnail" alt="incorrect_everything">
     <form action="{{ url_for('game') }}">
         <button id="start-button">Start</button>
     </form>

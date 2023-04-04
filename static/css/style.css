@@ -24,6 +24,10 @@ h1 {
     gap: 10px;
 }
 
+#game-img {
+    width: 200px;
+}
+
 /* Each cell in the grid */
 .cell {
     height: 60px;
