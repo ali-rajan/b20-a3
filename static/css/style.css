@@ -58,6 +58,10 @@ h1 {
 }
 
 
+#game-img {
+    width: 200px;
+}
+
 /* Each cell in the grid */
 .cell {
     height: 60px;
