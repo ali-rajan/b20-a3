@@ -1,6 +1,8 @@
 const GUESSES = 6;
 const WORD_LENGTH = 5;
 
+
+
 const gridElement = document.getElementById("grid");
 const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
@@ -17,6 +19,52 @@ const cursor = {    // Stores the current position of the letter to be typed in 
 createGrid(GUESSES, WORD_LENGTH);
 createKeyboard();
 document.addEventListener("keyup", keyboardInput);
+
+let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
+let timerRef = document.querySelector('.timerDisplay');
+let currentInterval = null;
+
+document.getElementById('startTimer').addEventListener('click', ()=>{
+    if(currentInterval!==null){
+        clearInterval(currentInterval);
+    }
+      currentInterval = setInterval(displayTimer,10);
+});
+
+document.getElementById('pauseTimer').addEventListener('click', ()=>{
+    clearInterval(currentInterval);
+});
+
+function displayTimer(){
+    milliseconds+=10;
+    if(milliseconds == 1000){
+        milliseconds = 0;
+        seconds++;
+        if(seconds == 60){
+            seconds = 0;
+            minutes++;
+            if(minutes == 60){
+                minutes = 0;
+                hours++;
+            }
+        }
+    }
+
+ let h = hours < 10 ? "0" + hours : hours;
+ let m = minutes < 10 ? "0" + minutes : minutes;
+ let s = seconds < 10 ? "0" + seconds : seconds;
+ let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
+
+ timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
+}
+
+window.addEventListener("load", (event) => {
+    if(currentInterval!==null){
+        clearInterval(currentInterval);
+    }
+      currentInterval = setInterval(displayTimer,10);
+});
+
 
 function createGrid(rows, cols)
 {
