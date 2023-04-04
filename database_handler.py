@@ -39,6 +39,11 @@ def get_random_word():
     return random_word
 
 
+def dictionary_contains_word(guessed_word):
+    dict_entry = DictionaryWord.query.filter_by(word = guessed_word).first()
+    return dict_entry is not None
+
+
 # To-do: check if the word is a duplicate
 def add_word(word: str):
     """Insert the given word into the database of answer words.

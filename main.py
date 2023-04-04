@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from database_handler import *
 
 app = Flask(__name__)
@@ -32,5 +32,18 @@ def game():
     return render_template("game.html", secret_word=random_word)
 
 
+@app.route("/random_word")
+def random_secret_word():
+    random_word = get_random_word()
+    return jsonify({"word": random_word})
+
+
+@app.route("/dictionary_check", methods=["POST"])
+def dictionary_check():
+    word = request.get_json()["word"]
+    in_dictionary = dictionary_contains_word(word)
+    return jsonify({"containsWord": in_dictionary})
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

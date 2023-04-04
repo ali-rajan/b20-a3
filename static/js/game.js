@@ -6,9 +6,8 @@ const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
 
 const grid = [];
-// const secretWord = "squid";     // To-do: get this from the database
-const secretWord = "{{ secret_word }}";     // Fetched from the database using Flask
-console.log(secretWord);
+// const secretWord is a variable in the embedded HTML script, which is fetched from the database
+console.log(`Secret word: '${secretWord}'`);
 const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
     "u", "v", "w", "x", "y", "z"];
 const cursor = {    // Stores the current position of the letter to be typed in the grid
@@ -137,7 +136,7 @@ function keyboardInput(event)
     }
 }
 
-function processWord()
+async function processWord()
 {
     /**
      * Retrieves the guessed word from the cursor's current row, checks which letters match the secret word (if any)
@@ -156,13 +155,9 @@ function processWord()
         guessedWord += grid[cursor.row][col].innerText;
     }
 
-    if (!dictionaryContainsWord(guessedWord))
+    const containsWord = await dictionaryContainsWord(guessedWord);
+    if (!containsWord)
     {
-        for (let col = 0; col < WORD_LENGTH; col ++)    // Clear the guessed word
-        {
-            grid[cursor.row][col].innerText = "";
-        }
-        cursor.col = 0;
         feedbackText.innerText = "Enter a word in the dictionary";
         return;
     }
@@ -185,7 +180,7 @@ function processWord()
 }
 
 // To-do: get this from the database
-function dictionaryContainsWord(word)
+async function dictionaryContainsWord(word)
 {
     /**
      * Returns whether or not the given word is in the dictionary of guessable words, as stored in the database.
@@ -195,8 +190,21 @@ function dictionaryContainsWord(word)
      * @return {boolean} Whether the given word is a guessable word.
      */
 
-    const words = ["squid", "cigar", "sissy", "awake"];
-    return words.includes(word);
+    let containsWord;
+    await fetch("/dictionary_check", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"word": word})
+    }).then(response => response.json())    // Extract the JSON data from the HTTP response
+    .then(function(data) {
+        containsWord = data["containsWord"];
+    });
+    return containsWord;
+
+    // const words = ["squid", "cigar", "sissy", "awake"];
+    // return words.includes(word);
 }
 
 function highlightCells(guessedWord)
