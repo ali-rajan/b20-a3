@@ -179,7 +179,6 @@ async function processWord()
     }
 }
 
-// To-do: get this from the database
 async function dictionaryContainsWord(word)
 {
     /**
@@ -202,9 +201,6 @@ async function dictionaryContainsWord(word)
         containsWord = data["containsWord"];
     });
     return containsWord;
-
-    // const words = ["squid", "cigar", "sissy", "awake"];
-    // return words.includes(word);
 }
 
 function highlightCells(guessedWord)

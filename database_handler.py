@@ -33,13 +33,27 @@ class Word(database.Model):
 
 
 def get_random_word():
+    """Return a word selected at random from the Word table in the database.
+
+    :return: A random word.
+    :rtype: str
+    """
+
     num_entries = Word.query.count()
     word_index = randint(1, num_entries)
-    random_word = Word.query.filter_by(id = word_index).first().word    # Get the word with the specified id
+    random_word = Word.query.filter_by(id = word_index).first().word    # Get the word with the randomly chosen ID
     return random_word
 
 
 def dictionary_contains_word(guessed_word):
+    """Return whether the given word is in the dictionary (the DictionaryWord table in the database).
+
+    :param guessed_word: The word to check.
+    :type guessed_word: str
+    :return: Whether the given word is in the database's DictionaryWord table.
+    :rtype: bool
+    """
+
     dict_entry = DictionaryWord.query.filter_by(word = guessed_word).first()
     return dict_entry is not None
 
