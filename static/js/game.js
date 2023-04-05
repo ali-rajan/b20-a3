@@ -28,17 +28,6 @@ let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
 let currentInterval = null;
 
-document.getElementById('startTimer').addEventListener('click', ()=>{
-    if(currentInterval!==null){
-        clearInterval(currentInterval);
-    }
-      currentInterval = setInterval(displayTimer,10);
-});
-
-document.getElementById('pauseTimer').addEventListener('click', ()=>{
-    clearInterval(currentInterval);
-});
-
 function displayTimer(){
     milliseconds+=10;
     if(milliseconds == 1000){
@@ -219,11 +208,14 @@ async function processWord()
     if (guessedWord === secretWord)
     {
         feedbackText.innerText = "You win";
+        clearInterval(currentInterval);
         cursor.row = GUESSES;
+        console.log(timerRef.innerHTML);
     }
     else if (cursor.row === GUESSES)
     {
-        feedbackText.innerText = "Game over";
+        feedbackText.innerText = "Game over - The word was : " + secretWord;
+        clearInterval(currentInterval);
     }
 }
 

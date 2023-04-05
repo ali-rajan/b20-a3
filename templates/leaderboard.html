@@ -1,4 +1,19 @@
 {% extends "navigation.html" %}
 {% block content %}
     <h1>Leaderboard</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Points</th>
+                <th>Time</th>
+                <th>Number of Guesses</th>
+            </tr>
+
+        </thead>
+        <tbody id="leaderboard-entry">
+        </tbody>
+    </table>
 {% endblock %}
