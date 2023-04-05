@@ -5,15 +5,22 @@
         <thead>
             <tr>
                 <th>Rank</th>
-                <th>ID</th>
                 <th>Username</th>
-                <th>Points</th>
+                <th>ID</th>
+                <th>Score</th>
                 <th>Time</th>
                 <th>Number of Guesses</th>
             </tr>
-
         </thead>
-        <tbody id="leaderboard-entry">
+
+        <tbody>
+            {% for entry in leaderboard_entries %}
+            <tr>
+                {% for value in entry %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}

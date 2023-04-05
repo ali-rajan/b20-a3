@@ -1,8 +1,6 @@
 const GUESSES = 6;
 const WORD_LENGTH = 5;
 
-
-
 const gridElement = document.getElementById("grid");
 const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
@@ -230,7 +228,7 @@ async function dictionaryContainsWord(word)
      */
 
     let containsWord;
-    await fetch("/dictionary_check", {
+    await fetch("/game/dictionary_check", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

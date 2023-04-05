@@ -8,7 +8,7 @@ function testResults (form) {
         for (var i = 0; i < inputValue.length; i++) {
             if ((/[a-zA-Z]/).test(inputValue.charAt(i)) == false) {
                 valid = false
-            } 
+            }
         }
     }
     output(valid);

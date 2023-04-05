@@ -5,16 +5,20 @@
     <p>Each guess must be a valid 5-letter word</p>
     <p>The color of the tiles will change to show how close your guess to the word was</p>
     <p><b>Examples</b></p>
+
     <p>Green means that the letter is in the right position</p>
     <img src="{{ url_for('static', filename='images/correct-placement.png') }}" id="game-img" class="img-thumbnail" alt="correct_placement">
     <br>
+
     <p>Yellow means that the letter is in the word but not in the right position</p>
     <img src="{{ url_for('static', filename='images/incorrect-placement.png') }}" id="game-img" class="img-thumbnail" alt="incorrect_placement">
     <br>
+
     <p>Red means that the letter is not in the word at all</p>
     <img src="{{ url_for('static', filename='images/incorrect-everything.png') }}" id="game-img" class="img-thumbnail" alt="incorrect_everything">
     <br>
     <br>
+
     <form action="{{ url_for('game') }}">
         <input type="text" id="player-name" name="inputbox" value="" placeholder="User" required>
         <button id="start-button">Start</button>
