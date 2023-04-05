@@ -8,9 +8,9 @@ var col = 0; //current letter for that attempt
 
 var gameOver = false;
 
-var wordList = ["squid", "cigar", "sissy", "awake"];
+var wordList = ["squid", "cigar", "sissy", "awake", "start", "queen", "deals"];
 
-var guessList = ["squid", "cigar", "sissy", "awake"];
+var guessList = ["squid", "cigar", "sissy", "awake", "start", "queen", "deals"];
 
 guessList = guessList.concat(wordList);
 var word = wordList[0];
