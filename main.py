@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, session, get_flashed_messages
 from database_handler import (database, bcrypt, input_words_from_file, is_valid_account_info, insert_player,
-    validate_login, USER_NOT_FOUND, INCORRECT_PASSWORD, get_random_word, get_username, dictionary_contains_word,
-    insert_leaderboard_entry, get_leaderboard_entries, insert_word, is_valid_word)
+                              validate_login, USER_NOT_FOUND, INCORRECT_PASSWORD, get_random_word, get_username,
+                              dictionary_contains_word, insert_leaderboard_entry, get_leaderboard_entries, insert_word,
+                              is_valid_word)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ae1fd77b66a507880a1bbd78180619d872128a6b3865c68a"
@@ -77,16 +78,15 @@ def game():
 
     user_id = session.get("user")
     if user_id:     # The user is logged in
-        random_word = get_random_word()
         username = get_username(user_id)
-        return render_template("game.html", secret_word=random_word, username_text=username)
+        return render_template("game.html", username_text=username)
     else:
         flash("Please log in to play", "start_game")
         return render_template("index.html")
 
 
 @app.route("/game/random_word")
-def random_secret_word():
+def get_secret_word():
     """Return a random word from the Word table in the JSON format.
     """
 
@@ -158,12 +158,12 @@ def compute_score(time: int, guesses: int) -> int:
     """
 
     max_guesses = 6
-    zero_score_time = 150000    # After 2.5 minutes, the score is zero regardless of whether the user guesses the word
+    zero_score_time = 300000    # After 5 minutes, the score is zero regardless of whether the user guesses the word
     if time >= zero_score_time or guesses >= max_guesses:
         return 0
     # This formula was made to reward taking less time exponentially and using less guesses linearly
     multiplier = max_guesses - guesses
-    time_score = 2 ** ((zero_score_time - time) / (10000))
+    time_score = 2 ** ((zero_score_time - time) / (20000))
     return int(multiplier * time_score)
 
 

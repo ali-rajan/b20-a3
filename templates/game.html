@@ -6,14 +6,8 @@
         <br>
         <div id="keyboard"></div>
         <h2 id="feedback">Guess a word</h2>
-        <div class="timerDisplay">
-            00 : 00 : 00 : 000
-        </div>
+        <div class="timerDisplay">00:00:00:000</div>
     </div>
 
-    <!-- Need this script to pass the secret word from Flask to Javascript -->
-    <script>
-        const secretWord = "{{ secret_word }}";
-    </script>
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 {% endblock %}
