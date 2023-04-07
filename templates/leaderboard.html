@@ -4,9 +4,8 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Rank</th>
                 <th>Username</th>
-                <th>ID</th>
+                <th>Player ID</th>
                 <th>Score</th>
                 <th>Time</th>
                 <th>Number of Guesses</th>
@@ -16,9 +15,8 @@
         <tbody>
             {% for entry in leaderboard_entries %}
             <tr>
-                <td>Rank #</td>
-                <td>Username here</td>
-                <td>{{ entry.player_id }}</td>
+                <td>{{ entry.player_id | username_filter }}</td>
+                <td>{{ entry.player_id | player_id_filter }}</td>
                 <td>{{ entry.score }}</td>
                 <td>{{ entry.time }}</td>
                 <td>{{ entry.guesses }}</td>
