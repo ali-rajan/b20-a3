@@ -3,6 +3,9 @@ const gridElement = document.getElementById("grid");
 const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
 const timer = document.querySelector('.timerDisplay');
+const backgroundMusic = document.getElementById("background-music");
+const victorySound = document.getElementById("victory-sound");
+const gameoverSound = document.getElementById("game-over-sound");
 
 // CSS classes for cell colour highlighting
 const CORRECT_COLOUR_CLASS = "correct";
@@ -31,6 +34,7 @@ createKeyboard();
 getSecretWord();
 document.addEventListener("keyup", keyboardInput);
 document.addEventListener("DOMContentLoaded", startTimer);
+backgroundMusic.volume = 0.3;
 
 
 async function getSecretWord()
@@ -220,17 +224,19 @@ async function processWord()
     cursor.col = 0;
     if (guessedWord === secretWord)
     {
-        feedbackText.innerText = "You win";
-        myMusic = new sound("music/winner.mp3");
-        myMusic.play();
         clearInterval(currentInterval);
+        feedbackText.innerText = "You win";
+        victorySound.play();
+        backgroundMusic.pause();
         cursor.row = GUESSES;
         addLeaderboardEntry(time.getTime(), timer.innerText, guesses);    // Send the information to the database
     }
     else if (cursor.row === GUESSES)
     {
-        feedbackText.innerText = `Game over. The word was "${secretWord}"`;
         clearInterval(currentInterval);
+        feedbackText.innerText = `Game over. The word was "${secretWord}"`;
+        gameoverSound.play();
+        backgroundMusic.pause();
     }
 }
 

@@ -131,6 +131,17 @@ def leaderboard():
     return render_template("leaderboard.html", leaderboard_entries=entries)
 
 
+@app.template_filter()
+def username_filter(player_id: int):
+    return get_username(player_id)
+
+@app.template_filter()
+def player_id_filter(player_id: int):
+    formatted_str = "%09d" % player_id
+    spaced_str = formatted_str[:3] + " " + formatted_str[3: 6] + " " + formatted_str[6: 9]
+    return spaced_str
+
+
 @app.route("/add_word", methods=["GET", "POST"])
 def add_word():
     """Handle the "Add Word" page and the insertion of a new word posted in any requests on the page.

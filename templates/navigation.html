@@ -21,4 +21,11 @@
 
     {% block content %}
     {% endblock %}
+
+    <!-- For typing sound effects -->
+    <audio id="typing-sound">
+        <source src="{{ url_for('static', filename='music/typing-click.mp3') }}" type="audio/mpeg"/>
+    </audio>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
