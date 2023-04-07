@@ -1,64 +1,75 @@
-const GUESSES = 6;
-const WORD_LENGTH = 5;
-
+// HTML elements for the game's components
 const gridElement = document.getElementById("grid");
 const keyboardElement = document.getElementById("keyboard");
 const feedbackText = document.getElementById("feedback");
+const timer = document.querySelector('.timerDisplay');
 
-const grid = [];
-// const secretWord is a variable in the embedded HTML script, which is fetched from the database
-console.log(`Secret word: '${secretWord}'`);
-const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-    "u", "v", "w", "x", "y", "z"];
-const cursor = {    // Stores the current position of the letter to be typed in the grid
-    row: 0,
-    col: 0
-};
-let guesses = 0;
+// CSS classes for cell colour highlighting
 const CORRECT_COLOUR_CLASS = "correct";
 const MISPLACED_COLOUR_CLASS = "misplaced";
 const INCORRECT_COLOUR_CLASS = "incorrect";
 
+// Game constants
+const GUESSES = 6;
+const WORD_LENGTH = 5;
+const TIMER_INCREMENT = 10;
+let secretWord;
+const time = new Date(0);   // Tracks the amount of time taken
+let currentInterval = null;     // The interval for the timer functionality
+let guesses = 0;    // The number of guesses used
+const grid = [];    // Stores the letter grid elements displayed
+const cursor = {    // Stores the current position of the letter to be typed in the grid
+    row: 0,
+    col: 0
+};
+const LETTERS = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
+    "u", "v", "w", "x", "y", "z"];
+
+// Initialize the components and add event listeners
 createGrid(GUESSES, WORD_LENGTH);
 createKeyboard();
+getSecretWord();
 document.addEventListener("keyup", keyboardInput);
+document.addEventListener("DOMContentLoaded", startTimer);
 
-let time = 0;
-let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
-let timerRef = document.querySelector('.timerDisplay');
-let currentInterval = null;
 
-function displayTimer(){
-    milliseconds+=10;
-    time += 10;
-    if(milliseconds == 1000){
-        milliseconds = 0;
-        seconds++;
-        if(seconds == 60){
-            seconds = 0;
-            minutes++;
-            if(minutes == 60){
-                minutes = 0;
-                hours++;
-            }
-        }
-    }
+async function getSecretWord()
+{
+    /**
+     * Fetches a random word from the database and stores it in the variable secretWord.
+     */
 
- let h = hours < 10 ? "0" + hours : hours;
- let m = minutes < 10 ? "0" + minutes : minutes;
- let s = seconds < 10 ? "0" + seconds : seconds;
- let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds < 100 ? "0" + milliseconds : milliseconds;
-
- timerRef.innerHTML = ` ${h} : ${m} : ${s} : ${ms}`;
+    await fetch("/game/random_word", {
+        method: "GET",
+    }).then(response => response.json())    // Extract the JSON data from the HTTP response
+    .then(function(data) {
+        secretWord = data["word"];
+    });
 }
 
-window.addEventListener("load", (event) => {
-    if(currentInterval!==null){
-        clearInterval(currentInterval);
-    }
-      currentInterval = setInterval(displayTimer,10);
-});
+function startTimer()
+{
+    /**
+     * Starts the timer using intervals.
+     */
 
+    if (currentInterval !== null)
+    {
+        clearInterval(currentInterval, TIMER_INCREMENT);
+    }
+    currentInterval = setInterval(updateTimer, TIMER_INCREMENT);
+}
+
+function updateTimer()
+{
+    /**
+     * Increments the time elapsed and updates the timer's text.
+     */
+
+    time.setTime(time.getTime() + TIMER_INCREMENT);
+    // Characters 11 to 23 of the ISO string are HH:MM:SS:mmm (m is for milliseconds)
+    timer.innerText = time.toISOString().slice(11, 23);
+}
 
 function createGrid(rows, cols)
 {
@@ -214,13 +225,11 @@ async function processWord()
         myMusic.play();
         clearInterval(currentInterval);
         cursor.row = GUESSES;
-        addLeaderboardEntry(time, timerRef.innerText, guesses);
-        // Send game stats to server for leaderboard
+        addLeaderboardEntry(time.getTime(), timer.innerText, guesses);    // Send the information to the database
     }
     else if (cursor.row === GUESSES)
     {
-        feedbackText.innerText = "Game over - The word was : " + secretWord;
-
+        feedbackText.innerText = `Game over. The word was "${secretWord}"`;
         clearInterval(currentInterval);
     }
 }
@@ -370,7 +379,6 @@ function addLeaderboardEntry(time, timeString, guesses)
      * @param {number} guesses      The number of guesses used.
      */
 
-    // console.log(`Sending data ${time} formatted ${timeString} guesses = ${guesses}`);
     fetch("/game/leaderboard_entry", {
         method: "POST",
         headers: {
