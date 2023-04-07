@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Totally Not Wordle</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -15,6 +16,7 @@
             <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
             <li><a href="{{ url_for('add_word') }}">Add a Word</a></li>
         </ul>
+        <p>{{ username_text }}</p>
     </nav>
 
     {% block content %}

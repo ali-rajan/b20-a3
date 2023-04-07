@@ -1,10 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
 from random import randint
-from sqlalchemy import exc
+from sqlalchemy import exc, desc
 from flask_bcrypt import Bcrypt
 
 database = SQLAlchemy()
 bcrypt = Bcrypt()
+
+# Constants for the login query return values used later
+USER_NOT_FOUND = -2
+INCORRECT_PASSWORD = -1
 
 
 class DictionaryWord(database.Model):
@@ -76,8 +80,33 @@ class Leaderboard(database.Model):
 ##### Functions for the player table #####
 
 
-# To-do
-def insert_player(username, password_hash):
+def is_valid_account_info(username_query: str, password_query: str) -> bool:
+    """Return whether the given username and password can be used to create a new player account.
+
+    :param username_query: The username to validate.
+    :type username_query: str
+    :param password_query: The (plaintext) password to validate.
+    :type password_query: str
+    :return: True if the username and password are valid, False otherwise.
+    :rtype: bool
+    """
+
+    existing = Player.query.filter_by(username=username_query).first()
+    if existing:    # The user already exists
+        return False
+    return username_query.isalnum() and password_query.isalnum()    # Check that only alphanumeric characters are used
+
+
+def insert_player(username: str, password_hash: str) -> None:
+    """Insert the player with the given login information into the Player table. The input should be validated using
+    :func:is_valid_user before attempting to insert.
+
+    :param username: The username.
+    :type username: str
+    :param password_hash: The hash generated for the password.
+    :type password_hash: str
+    """
+
     try:
         player = Player(username, password_hash)
         database.session.add(player)
@@ -86,11 +115,58 @@ def insert_player(username, password_hash):
         database.session.rollback()
 
 
+def validate_login(username_query: str, password_query: str) -> int:
+    """Return the player ID after verifying the given login information. If the player does not exist or the password
+    is incorrect, the corresponding constants are returned.
+
+    :param username_query: The username provided when logging in.
+    :type username_query: str
+    :param password_query: The password provided when logging in.
+    :type password_query: str
+    :return: The player ID, if the login information matches that of some user. If the player does not exist,
+        USER_NOT_FOUND is returned, and if the password is incorrect, INCORRECT_PASSWORD is returned.
+    :rtype: int
+    """
+
+    player = Player.query.filter_by(username=username_query).first()
+    if not player:  # The user does not exist
+        return USER_NOT_FOUND
+    elif not bcrypt.check_password_hash(player.password_hash, password_query):  # An incorrect password was provided
+        return INCORRECT_PASSWORD
+    return player.id
+
+
+def get_username(player_id: int) -> str:
+    """Return the username of the player with the given ID. If the ID is not found, an empty string is returned.
+
+    :param player_id: The player ID.
+    :type player_id: int
+    :return: The username of the given player, or an empty string if the player does not exist in the table.
+    :rtype: str
+    """
+
+    player = Player.query.filter_by(id=player_id).first()
+    if not player:
+        return ""
+    return player.username
+
+
 ##### Functions for the leaderboard table #####
 
 
-# To-do
-def insert_leaderboard_entry(player_id, score, time, guesses):
+def insert_leaderboard_entry(player_id: int, score: int, time: str, guesses: int) -> None:
+    """Insert a new entry with the given attributes into the Leaderboard table.
+
+    :param player_id: The player ID.
+    :type player_id: int
+    :param score: The player's score for the game played.
+    :type score: int
+    :param time: The string representation of the time taken.
+    :type time: str
+    :param guesses: The number of guesses used.
+    :type guesses: int
+    """
+
     try:
         entry = Leaderboard(player_id, score, time, guesses)
         database.session.add(entry)
@@ -99,10 +175,14 @@ def insert_leaderboard_entry(player_id, score, time, guesses):
         database.session.rollback()
 
 
-# To-do
-def get_leaderboard_entries() -> list[tuple]:
-    # return [("rank", "name", "player id", "score", "time", "guesses")]
-    entries = Leaderboard.query.all()
+def get_leaderboard_entries() -> list[Leaderboard]:
+    """Return all the leaderboard entries in the list.
+
+    :return: A list containing the leaderboard entries.
+    :rtype: list[Leaderboard]
+    """
+
+    entries = Leaderboard.query.order_by(desc(Leaderboard.score)).all()
     return entries
 
 
@@ -127,7 +207,7 @@ def dictionary_contains_word(guessed_word: str) -> bool:
 
     :param guessed_word: The word to check.
     :type guessed_word: str
-    :return: Whether the given word is in the database's DictionaryWord table.
+    :return: True if the given word is in the database's DictionaryWord table, False otherwise.
     :rtype: bool
     """
 
@@ -143,7 +223,7 @@ def is_valid_word(word: str, word_length: int) -> bool:
     :type word: str
     :param word_length: The string length for the word to be valid.
     :type word_length: int
-    :return: Whether the given word is valid
+    :return: True if the given word is valid, False otherwise.
     :rtype: bool
     """
 
