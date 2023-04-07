@@ -1,5 +1,6 @@
 {% extends "navigation.html" %}
 {% block content %}
+    <h1></h1>
     <div id="game-container">
         <h1>Totally Not Wordle</h1>
         <div id="grid"></div>
@@ -10,10 +11,12 @@
             00 : 00 : 00 : 000
         </div>
     </div>
-
+    <audio autoplay loop>
+        <source src="{{ url_for('static', filename='music/background.mp3') }}" type="audio/mpeg" />
+    </audio>
     <!-- Need this script to pass the secret word from Flask to Javascript -->
     <script>
-        const secretWord = "{{ secret_word }}";
+        const secretWord = "{{ secret_word }}";     
     </script>
     <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 {% endblock %}

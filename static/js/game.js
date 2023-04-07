@@ -21,7 +21,7 @@ const INCORRECT_COLOUR_CLASS = "incorrect";
 createGrid(GUESSES, WORD_LENGTH);
 createKeyboard();
 document.addEventListener("keyup", keyboardInput);
-
+var myMusic;
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
 let currentInterval = null;
@@ -206,6 +206,8 @@ async function processWord()
     if (guessedWord === secretWord)
     {
         feedbackText.innerText = "You win";
+        myMusic = new sound("music/winner.mp3");
+        myMusic.play();
         clearInterval(currentInterval);
         cursor.row = GUESSES;
         console.log(timerRef.innerHTML);
@@ -213,6 +215,7 @@ async function processWord()
     else if (cursor.row === GUESSES)
     {
         feedbackText.innerText = "Game over - The word was : " + secretWord;
+
         clearInterval(currentInterval);
     }
 }

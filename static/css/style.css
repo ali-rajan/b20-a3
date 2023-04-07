@@ -107,14 +107,35 @@ h1 {
 /* Classes for the various highlight colors */
 .correct {
     background-color: green;
+    animation-name: example;
+    animation-duration: 2s;
 }
 
+@keyframes example {
+    from {background-color: white;}
+    to {background-color: green;}
+  }
+
 .misplaced {
+    animation-name: mis;
+    animation-duration: 2s;
     background-color: yellow;
+}
+
+@keyframes mis {
+    from {background-color: white;}
+    to {background-color: yellow;}
+  }
+
+@keyframes incorrect {
+from {background-color: white;}
+to {background-color: red;}
 }
 
 .incorrect {
     background-color: red;
+    animation-name: incorrect;
+    animation-duration: 2s;
 }
 
 #game-board {
