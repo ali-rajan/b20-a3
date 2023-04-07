@@ -14,6 +14,7 @@ const cursor = {    // Stores the current position of the letter to be typed in 
     row: 0,
     col: 0
 };
+let guesses = 0;
 const CORRECT_COLOUR_CLASS = "correct";
 const MISPLACED_COLOUR_CLASS = "misplaced";
 const INCORRECT_COLOUR_CLASS = "incorrect";
@@ -22,12 +23,14 @@ createGrid(GUESSES, WORD_LENGTH);
 createKeyboard();
 document.addEventListener("keyup", keyboardInput);
 
+let time = 0;
 let [milliseconds,seconds,minutes,hours] = [0,0,0,0];
 let timerRef = document.querySelector('.timerDisplay');
 let currentInterval = null;
 
 function displayTimer(){
     milliseconds+=10;
+    time += 10;
     if(milliseconds == 1000){
         milliseconds = 0;
         seconds++;
@@ -199,6 +202,7 @@ async function processWord()
     else
     {
         highlightCells(guessedWord);
+        guesses ++;
     }
 
     cursor.row ++;
@@ -208,7 +212,8 @@ async function processWord()
         feedbackText.innerText = "You win";
         clearInterval(currentInterval);
         cursor.row = GUESSES;
-        console.log(timerRef.innerHTML);
+        addLeaderboardEntry(time, timerRef.innerText, guesses);
+        // Send game stats to server for leaderboard
     }
     else if (cursor.row === GUESSES)
     {
@@ -350,4 +355,24 @@ function inputCharacter(letter)
 
     grid[cursor.row][cursor.col].innerText = letter.toLowerCase();
     cursor.col ++;
+}
+
+function addLeaderboardEntry(time, timeString, guesses)
+{
+    /**
+     * Posts the given leaderboard entry data to the server for insertion into the Leaderboard table.
+     *
+     * @param {number} time         The time taken to win the game, in milliseconds.
+     * @param {string} timeString   The timer string representation of the time taken.
+     * @param {number} guesses      The number of guesses used.
+     */
+
+    // console.log(`Sending data ${time} formatted ${timeString} guesses = ${guesses}`);
+    fetch("/game/leaderboard_entry", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"time": time, "timeString": timeString, "guesses": guesses})
+    });
 }

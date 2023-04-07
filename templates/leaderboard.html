@@ -16,9 +16,12 @@
         <tbody>
             {% for entry in leaderboard_entries %}
             <tr>
-                {% for value in entry %}
-                <td>{{ value }}</td>
-                {% endfor %}
+                <td>Rank #</td>
+                <td>Username here</td>
+                <td>{{ entry.player_id }}</td>
+                <td>{{ entry.score }}</td>
+                <td>{{ entry.time }}</td>
+                <td>{{ entry.guesses }}</td>
             </tr>
             {% endfor %}
         </tbody>
