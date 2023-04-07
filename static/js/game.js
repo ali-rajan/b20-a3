@@ -221,6 +221,8 @@ async function processWord()
     if (guessedWord === secretWord)
     {
         feedbackText.innerText = "You win";
+        myMusic = new sound("music/winner.mp3");
+        myMusic.play();
         clearInterval(currentInterval);
         cursor.row = GUESSES;
         addLeaderboardEntry(time.getTime(), timer.innerText, guesses);    // Send the information to the database
