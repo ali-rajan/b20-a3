@@ -23,7 +23,8 @@ def home():
     """Render the homepage.
     """
 
-    return render_template("index.html")
+    return render_template("index.html", username_text=get_username_text())
+
 
 
 @app.route("/register", methods=["POST"])
@@ -40,7 +41,7 @@ def register():
     else:
         flash("Please enter a valid password and username that is not taken. Only use alphanumeric characters",
             "user_register")
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 @app.route("/login", methods=["POST"])
@@ -56,9 +57,9 @@ def login():
     elif result == INCORRECT_PASSWORD:
         flash("Incorrect password", "login")
     else:
-        session["user"] = result
+        session["user_id"] = result
         flash("Welcome, %s!" % username, "login")
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 @app.route("/logout")
@@ -66,9 +67,9 @@ def logout():
     """Handle the player logout.
     """
 
-    session.pop("user", None)
+    session.pop("user_id", None)
     flash("Logged out", "login")
-    return render_template("index.html")
+    return redirect(url_for("home"))
 
 
 @app.route("/game")
@@ -76,13 +77,12 @@ def game():
     """Handle the game startup based on whether the user is logged in.
     """
 
-    user_id = session.get("user")
-    if user_id:     # The user is logged in
-        username = get_username(user_id)
-        return render_template("game.html", username_text=username)
+    player_id = session.get("user_id", None)
+    if player_id:     # The user is logged in
+        return render_template("game.html", username_text=get_username_text())
     else:
         flash("Please log in to play", "start_game")
-        return render_template("index.html")
+        return redirect(url_for("home"))
 
 
 @app.route("/game/random_word")
@@ -117,7 +117,7 @@ def add_leaderboard_entry():
     score = compute_score(time, guesses)
     time_string = game_statistics["timeString"]
 
-    insert_leaderboard_entry(session["user"], score, time_string, guesses)
+    insert_leaderboard_entry(session["user_id"], score, time_string, guesses)
 
     return redirect(url_for("leaderboard"))
 
@@ -128,7 +128,7 @@ def leaderboard():
     """
 
     entries = get_leaderboard_entries()
-    return render_template("leaderboard.html", leaderboard_entries=entries)
+    return render_template("leaderboard.html", leaderboard_entries=entries, username_text=get_username_text())
 
 
 @app.template_filter()
@@ -154,7 +154,23 @@ def add_word():
             flash("The word '%s' was added" % word, "word_added")
         else:
             flash("Please enter a valid word", "word_added")
-    return render_template("add-word.html")
+    return render_template("add-word.html", username_text=get_username_text())
+
+
+def get_username_text() -> str:
+    """Return the username of the player currently logged in. If the user is not logged in, the string "Not logged in"
+    is returned.
+
+    :return: The username of the player, if the user is logged in. Otherwise, the string "Not logged in" is returned.
+    :rtype: str
+    """
+
+    player_id = session.get("user_id", None)
+    if player_id:
+        username = get_username(player_id)
+    else:
+        username = "Not logged in"
+    return username
 
 
 def compute_score(time: int, guesses: int) -> int:
