@@ -23,4 +23,51 @@
         <input type="text" id="player-name" name="player-name" value="" placeholder="User" required>
         <button id="start-button">Start</button>
     </form>
+
+    {% with messages = get_flashed_messages(category_filter=["start_game"]) %}
+        {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Log In</h2>
+    <form action="/login" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+        <button type="submit" name="login">Login</button>
+    </form>
+
+    <form action="/logout">
+        <button type="submit" name="logout">Logout</button>
+    </form>
+
+    {% with messages = get_flashed_messages(category_filter=["login"]) %}
+        {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <h2>Register</h2>
+    <form action="/register" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+        <button type="submit" name="register">Register</button>
+    </form>
+
+    {% with messages = get_flashed_messages(category_filter=["user_register"]) %}
+        {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
 {% endblock %}
