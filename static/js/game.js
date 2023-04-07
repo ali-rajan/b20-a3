@@ -210,6 +210,8 @@ async function processWord()
     if (guessedWord === secretWord)
     {
         feedbackText.innerText = "You win";
+        myMusic = new sound("music/winner.mp3");
+        myMusic.play();
         clearInterval(currentInterval);
         cursor.row = GUESSES;
         addLeaderboardEntry(time, timerRef.innerText, guesses);
@@ -218,6 +220,7 @@ async function processWord()
     else if (cursor.row === GUESSES)
     {
         feedbackText.innerText = "Game over - The word was : " + secretWord;
+
         clearInterval(currentInterval);
     }
 }
