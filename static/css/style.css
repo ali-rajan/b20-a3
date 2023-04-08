@@ -2,6 +2,33 @@ body {
     /* font-family: Arial, Helvetica, sans-serif; */
     font-family: "Georgia", "Century Schoolbook";
     text-align: center;
+    color: #ececec;
+    background-color: #142d4c;
+}
+
+/***** Navbar styling *****/
+
+.navbar {
+    background-color: #ececec;
+    color: #385170;
+}
+
+.navbar-right {
+    padding-right: 1em;
+}
+
+.list-group-item {
+    background-color: #385170;
+}
+
+input {
+    color: #142d4c;
+    background-color: #ececec;
+}
+
+button {
+    color: #142d4c;
+    background-color: #ececec;
 }
 
 h1 {
@@ -9,6 +36,9 @@ h1 {
     font-weight: bold;
     letter-spacing: 2px;
 }
+
+
+/***** Styling for the game elements *****/
 
 #game-container {
     min-width: 500px;
@@ -23,13 +53,15 @@ h1 {
     grid-template-columns: repeat(6, 60px);     /* This is modified in the script according to the set column count*/
     gap: 10px;
 }
-.buttons{
+
+.buttons {
     width: 90%;
     margin: 60px auto 0 auto;
     display: flex;
     justify-content: space-around;
 }
-.buttons button{
+
+.buttons button {
     width: 120px;
     height: 45px;
     background-color: #205e94;
@@ -41,14 +73,15 @@ h1 {
     cursor: pointer;
     outline: none;
 }
-.timerDisplay{
+
+.timerDisplay {
     position: relative;
     width: 92%;
     background: #ffffff;
     left: 4%;
     padding: 40px 0;
     font-family: ‘Roboto mono’,monospace;
-    color: #0381bb;
+    color: #385170;
     font-size: 40px;
     display: flex;
     align-items: center;
@@ -56,7 +89,6 @@ h1 {
     border-radius: 5px;
     box-shadow: 0 0 20px rgba(0,139,253,0.25);
 }
-
 
 #game-img {
     width: 200px;
@@ -73,6 +105,9 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-color: #ececec;
+    color: #385170;
 }
 
 /* The on-screen keyboard */
@@ -86,6 +121,9 @@ h1 {
     display: grid;
     grid-template-columns: repeat(10, 40px);
     gap: 5px;
+
+    background-color: #ececec;
+    color: #385170;
 }
 
 /* Each button in the on-screen keyboard */
@@ -100,40 +138,39 @@ h1 {
     border: 1px solid black;
     border-radius: 5px;
     font-size: 16px;
-    color: black;
     text-align: center;
 }
 
 /* Classes for the various highlight colors */
 .correct {
-    background-color: green;
+    background-color: #008450;
     animation-name: example;
     animation-duration: 2s;
 }
 
 @keyframes example {
     from {background-color: white;}
-    to {background-color: green;}
+    to {background-color: #008450;}
   }
 
 .misplaced {
     animation-name: mis;
     animation-duration: 2s;
-    background-color: yellow;
+    background-color: #efb700;
 }
 
 @keyframes mis {
     from {background-color: white;}
-    to {background-color: yellow;}
+    to {background-color: #efb700;}
   }
 
 @keyframes incorrect {
 from {background-color: white;}
-to {background-color: red;}
+to {background-color: #b81d13;}
 }
 
 .incorrect {
-    background-color: red;
+    background-color: #b81d13;
     animation-name: incorrect;
     animation-duration: 2s;
 }
@@ -147,69 +184,9 @@ to {background-color: red;}
     flex-wrap: wrap;
 }
 
-/* .char_box {
-    border: 2px solid black;
-    width: 60px;
-    height: 60px;
-    margin: 2.5px;
+/***** Leaderboard table styling *****/
 
-    color: black;
-    font-size: 36px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.table {
+    background-color: #ececec;
+    color: #385170;
 }
-
-.correct {
-    background-color: #6AAA64;
-    color: white;
-    border-color: white;
-}
-
-.present {
-    background-color: #C9B458;
-    color: white;
-    border-color: white;
-}
-
-.absent {
-    background-color: #787C7E;
-    color: white;
-    border-color:white;
-}
-
-
-.keyboard-row {
-    width: 400px;
-
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.key-tile {
-    width: 36px;
-    height: 40px;
-    margin: 1px;
-    border: 1px solid lightgray;
-
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.enter-key-tile {
-    width: 76px;
-    height: 40px;
-    margin: 1px;
-    border: 1px solid lightgray;
-
-    font-size: 20px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-} */
