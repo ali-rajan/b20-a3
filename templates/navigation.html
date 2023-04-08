@@ -12,11 +12,13 @@
 <body>
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav">
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
-            <li><a href="{{ url_for('add_word') }}">Add a Word</a></li>
+            <li class="nav-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="nav-item"><a href="{{ url_for('leaderboard') }}">Leaderboard</a></li>
+            <li class="nav-item"><a href="{{ url_for('add_word') }}">Add a Word</a></li>
         </ul>
-        <p>{{ username_text }}</p>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item"><a>{{ username_text }}</a></li>
+        </ul>
     </nav>
 
     {% block content %}

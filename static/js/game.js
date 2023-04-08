@@ -225,7 +225,7 @@ async function processWord()
     if (guessedWord === secretWord)
     {
         clearInterval(currentInterval);
-        feedbackText.innerText = "You win";
+        feedbackText.innerText = "You win!";
         victorySound.play();
         backgroundMusic.pause();
         cursor.row = GUESSES;

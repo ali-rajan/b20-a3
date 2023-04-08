@@ -1,10 +1,18 @@
 {% extends "navigation.html" %}
 {% block content %}
     <h1>How to Play</h1>
-    <p>Guess the Word in 6 tries.</p>
-    <p>Each guess must be a valid 5-letter word</p>
-    <p>The color of the tiles will change to show how close your guess to the word was</p>
-    <p><b>Examples</b></p>
+
+    <ul class="list-group">
+        <li class="list-group-item">The goal of the game is to guess the secret word</li>
+        <li class="list-group-item">The word is five letters long</li>
+        <li class="list-group-item">You have six attempts to guess the word</li>
+        <li class="list-group-item">If you guess the word, your score will be determined by how much time you took and
+        the number of guesses</li>
+    </ul>
+
+    <p>The color of the tiles will change to show how close your guess was to the word</p>
+
+    <h2>Examples</h2>
 
     <p>Green means that the letter is in the right position</p>
     <img src="{{ url_for('static', filename='images/correct-placement.png') }}" id="game-img" class="img-thumbnail"
@@ -35,6 +43,7 @@
     {% endwith %}
 
     <h2>Log In</h2>
+
     <form action="/login" method="POST">
         <label for="username">Username</label>
         <input type="text" name="username" required>
@@ -56,6 +65,7 @@
     {% endwith %}
 
     <h2>Register</h2>
+
     <form action="/register" method="POST">
         <label for="username">Username</label>
         <input type="text" name="username" required>
