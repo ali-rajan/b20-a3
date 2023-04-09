@@ -31,20 +31,32 @@
     <br>
 
     <form action="/game">
-        <button id="start-button">Start</button>
+        <button class="btn btn-primary" id="start-button">Start</button>
     </form>
 
-    {% with messages = get_flashed_messages(category_filter=["start_game"]) %}
-        {% if messages %}
-            {% for message in messages %}
-            <p>{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="messages">
+        {% with messages = get_flashed_messages(category_filter=["start_game"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
-    <h2>Log In</h2>
+    <form class="form-signin" action="/login" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
 
-    <form class="p-3 mt-3" action="/login" method="POST">
+        <input class="form-control" type="text" name="username" id="userName" placeholder="Username" required
+        autofocus>
+        <input class="form-control" type="password" name="password" id="pwd" placeholder="Password" required>
+        <small class="form-text text-muted">Your username and password must only contain alphanumeric
+        characters.</small>
+
+        <button class="btn btn-lg btn-secondary btn-block" type="submit">Log in</button>
+    </form>
+
+    <!-- <form class="p-3 mt-3" action="/login" method="POST">
         <div class="form-field d-flex align-items-center">
             <span class="far fa-user"></span>
             <input type="text" name="username" id="userName" placeholder="Username" required>
@@ -58,12 +70,14 @@
         <button class="btn mt-3">Login</button>
     </form>
 
-    {% with messages = get_flashed_messages(category_filter=["login"]) %}
-        {% if messages %}
-            {% for message in messages %}
-            <p>{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="messages">
+        {% with messages = get_flashed_messages(category_filter=["login"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
 {% endblock %}

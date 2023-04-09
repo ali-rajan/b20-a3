@@ -37,6 +37,21 @@ h1 {
     letter-spacing: 2px;
 }
 
+/***** Registration styling *****/
+
+.form-signin, .form-group {
+    margin: auto;
+    max-width: 500px;
+}
+
+.form-text {
+    color: #ececec;
+}
+
+.messages {
+    padding: 1em;
+}
+
 
 /***** Styling for the game elements *****/
 
