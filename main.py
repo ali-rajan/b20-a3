@@ -25,13 +25,16 @@ def home():
 
     return render_template("index.html", username_text=get_username_text())
 
+
 @app.route("/register")
 def register():
     """Handle the routing to take the user to register page.
     """
-    return render_template("register.html")
 
-@app.route("/user-created", methods=["POST"])
+    return render_template("register.html", username_text=get_username_text())
+
+
+@app.route("/user_created", methods=["POST"])
 def user_created():
     """Handle the player account creation on backend and redirects to home page.
     """
@@ -41,11 +44,12 @@ def user_created():
     if is_valid_account_info(username, password):
         password_hash = bcrypt.generate_password_hash(password).decode("UTF-8")
         insert_player(username, password_hash)
-        flash("User created successfully", "user_register")
+        flash("User created successfully. Log in to play", "user_register")
+        session.pop("user_id", None)    # Log out the current user
     else:
         flash("Please enter a valid password and username that is not taken. Only use alphanumeric characters",
             "user_register")
-    return redirect(url_for("home"))
+    return render_template("register.html", username_text=get_username_text())
 
 
 @app.route("/login", methods=["POST"])
