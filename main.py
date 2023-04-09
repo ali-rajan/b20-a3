@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify, flash, redirect, url_for, session, get_flashed_messages
 from database_handler import (database, bcrypt, input_words_from_file, is_valid_account_info, insert_player,
                               validate_login, USER_NOT_FOUND, INCORRECT_PASSWORD, get_random_word, get_username,
-                              dictionary_contains_word, insert_leaderboard_entry, get_leaderboard_entries, insert_word,
-                              is_valid_word)
+                              dictionary_contains_word, insert_leaderboard_entry, get_leaderboard_entries,
+                              get_filtered_leaderboard_entries, insert_word, is_valid_word)
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ae1fd77b66a507880a1bbd78180619d872128a6b3865c68a"
@@ -135,12 +135,40 @@ def leaderboard():
     return render_template("leaderboard.html", leaderboard_entries=entries, username_text=get_username_text())
 
 
-@app.template_filter()
-def username_filter(player_id: int):
-    return get_username(player_id)
+@app.route("/leaderboard/search", methods=["POST"])
+def leaderboard_search():
+    """Render the leaderboard page with the specified filters.
+    """
+
+    min_score = request.form["min-score"]
+    max_guesses = request.form["max-guesses"]
+    filtered_entries = get_filtered_leaderboard_entries(min_score, max_guesses)
+    return render_template("leaderboard.html", leaderboard_entries=filtered_entries, username_text=get_username_text())
+
 
 @app.template_filter()
-def player_id_filter(player_id: int):
+def username_filter(player_id: int) -> str:
+    """Flask filter to display the username corresponding to the given player ID.
+
+    :param player_id: The player's ID.
+    :type player_id: int
+    :return: The player's username, or an empty string if the user does not exist.
+    :rtype: str
+    """
+
+    return get_username(player_id)
+
+
+@app.template_filter()
+def player_id_filter(player_id: int) -> str:
+    """Flask filter to display a formatted version of the given player ID with padding zeros and spaces.
+
+    :param player_id: The player's ID.
+    :type player_id: int
+    :return: A formatted string of the player ID.
+    :rtype: str
+    """
+
     formatted_str = "%09d" % player_id
     spaced_str = formatted_str[:3] + " " + formatted_str[3: 6] + " " + formatted_str[6: 9]
     return spaced_str

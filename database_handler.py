@@ -178,11 +178,27 @@ def insert_leaderboard_entry(player_id: int, score: int, time: str, guesses: int
 def get_leaderboard_entries() -> list[Leaderboard]:
     """Return all the leaderboard entries in the list.
 
-    :return: A list containing the leaderboard entries.
+    :return: A list of all the leaderboard entries.
     :rtype: list[Leaderboard]
     """
 
     entries = Leaderboard.query.order_by(desc(Leaderboard.score)).all()
+    return entries
+
+
+def get_filtered_leaderboard_entries(min_score: int, max_guesses: int) -> list[Leaderboard]:
+    """Return all the leaderboard entries with the specified filter options.
+
+    :param min_score: The minimum score for any entry to include.
+    :type min_score: int
+    :param max_guesses: The maximum number of guesses for any entry to include
+    :type max_guesses: int
+    :return: A list of all the filtered leaderboard entries.
+    :rtype: list[Leaderboard]
+    """
+
+    entries = Leaderboard.query.filter(Leaderboard.score >= min_score, Leaderboard.guesses <= max_guesses)
+    entries = entries.order_by(desc(Leaderboard.score)).all()
     return entries
 
 
