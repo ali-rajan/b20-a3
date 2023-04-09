@@ -14,7 +14,7 @@ body {
 }
 
 .navbar-right {
-    padding-right: 1em;
+    margin-right: 0.5em;
 }
 
 .list-group-item {
@@ -184,7 +184,14 @@ to {background-color: #b81d13;}
     flex-wrap: wrap;
 }
 
-/***** Leaderboard table styling *****/
+/***** Leaderboard styling *****/
+
+.dropdown-menu {
+    background-color: #ececec;
+    color: #385170;
+    padding: 1em;
+    min-width: 200px;
+}
 
 .table {
     background-color: #ececec;

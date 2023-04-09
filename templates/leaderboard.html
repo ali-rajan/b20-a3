@@ -1,14 +1,54 @@
 {% extends "navigation.html" %}
 {% block content %}
     <h1>Leaderboard</h1>
+
+    <!-- Leaderboard search and filter options -->
+    <form action="/leaderboard/search" method="POST">
+        <div class="input-group mb-3">
+            <!-- Search bar -->
+            <input type="text" class="form-control" placeholder="Search username/player ID">
+
+            <div class="input-group-btn">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                    Filters
+                    <span class="caret"></span>
+                </button>
+
+                <!-- Filter dropdown -->
+                <div class="dropdown-menu dropdown-menu-right">
+                    <li>
+                        <p class="dropdown-item" id="score-text">Minimum score: 0</p>
+                        <label for="min-score" class="pull-left">0</label>
+                        <label for="min-score" class="pull-right">163840</label>
+                        <input id="score-slider" name="min-score" type="range" class="form-range" value="0" min="0"
+                        max="163840" step="2048">
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                        <p class="dropdown-item" id="guess-text">Maximum guesses: 6</p>
+                        <label for="max-guesses" class="pull-left">1</label>
+                        <label for="max-guesses" class="pull-right">6</label>
+                        <input id="guesses-slider" name="max-guesses" type="range" class="form-range" value="6" min="1"
+                        max="6" step="1">
+                    </li>
+                </div>
+
+                <!-- Search button -->
+                <button class="btn btn-primary dropdown-toggle" type="submit">Search/apply filters</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Leaderboard table -->
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
-                <th class="th-sm">Username</th>
+                <th class="th-sm">Username <span class="caret"></span></th>
                 <th class="th-sm">Player ID</th>
                 <th class="th-sm">Score</th>
                 <th class="th-sm">Time</th>
-                <th class="th-sm">Number of Guesses</th>
+                <th class="th-sm">Number of guesses</th>
             </tr>
         </thead>
 
