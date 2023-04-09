@@ -1,37 +1,32 @@
 {% extends "navigation.html" %}
 {% block content %}
+    <form class="form-signin" action="/user_created" method="POST">
+        <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-    <h2>Register</h2>
+        <input class="form-control" type="text" name="username" id="userName" placeholder="Username" required
+        autofocus>
+        <input class="form-control" type="password" name="password" id="pwd" placeholder="Password" required>
+        <small class="form-text text-muted">Your username and password must only contain alphanumeric
+        characters.</small>
 
-
-    <form class="p-3 mt-3" action="/user-created" method="POST">
-        <div class="form-field d-flex align-items-center">
-            <span class="far fa-user"></span>
-            <input type="text" name="username" id="userName" placeholder="Username" required>
-        </div>
-        <br>
-        <div class="form-field d-flex align-items-center">
-            <span class="fas fa-key"></span>
-            <input type="password" name="password" id="pwd" placeholder="Password" required>
-        </div>
-        <br>
-        <div class="form-check">
-            <label class="form-check-label">
-              <input type="checkbox" class="form-check-input" required>
-              I Read and Accept <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">Terms and Conditions</a>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" required>I have read and accepted the
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley">terms and conditions</a>
             </label>
-          </div>
-          <br>
-        <button class="btn mt-3" type="submit" name="register">Register</button>
+        </div>
 
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="register">Register</button>
     </form>
 
-    {% with messages = get_flashed_messages(category_filter=["user_register"]) %}
-        {% if messages %}
-            {% for message in messages %}
-            <p>{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    <div class="messages">
+        {% with messages = get_flashed_messages(category_filter=["user_register"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 
 {% endblock %}
