@@ -18,9 +18,23 @@
             <li class="nav-item"><a href="{{ url_for('register') }}">Register</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a>{{ username_text }}</a></li>
+            <div class="dropdown">
+                <li class="nav-item" id="login-name">
+                    <button>{{ username_text }}</button>
+                </li>
+                <div class="dropdown-content">
+                    <form action="/logout">
+                        <button type="submit" name="logout">Exit</button>
+                    </form>
+                </div>
+            </div>
         </ul>
     </nav>
+        
+    
+
+
+    
 
     {% block content %}
     {% endblock %}
