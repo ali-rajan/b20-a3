@@ -14,7 +14,7 @@ WORD_LENGTH = 5
 
 with app.app_context():
     database.create_all()
-    input_words_from_file("dictionary.txt", "answers.txt")
+    input_words_from_file("word-texts/dictionary.txt", "word-texts/answers.txt")
 
 # Functions for routing
 
@@ -25,11 +25,15 @@ def home():
 
     return render_template("index.html", username_text=get_username_text())
 
-
-
-@app.route("/register", methods=["POST"])
+@app.route("/register")
 def register():
-    """Handle the player account creation.
+    """Handle the routing to take the user to register page.
+    """
+    return render_template("register.html")
+
+@app.route("/user-created", methods=["POST"])
+def user_created():
+    """Handle the player account creation on backend and redirects to home page.
     """
 
     username = request.form["username"]
