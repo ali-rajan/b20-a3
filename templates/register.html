@@ -1,0 +1,22 @@
+{% extends "navigation.html" %}
+{% block content %}
+
+    <h2>Register</h2>
+
+    <form action="/user-created" method="POST">
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+        <button type="submit" name="register">Register</button>
+    </form>
+
+    {% with messages = get_flashed_messages(category_filter=["user_register"]) %}
+        {% if messages %}
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}
