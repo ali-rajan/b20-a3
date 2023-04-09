@@ -67,7 +67,7 @@ h1 {
     background-color: #205e94;
     color: #ffffff;
     border: none;
-    font-family: ‘Poppins’,sans-serif;
+    font-family: 'Poppins',sans-serif;
     font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
@@ -80,7 +80,7 @@ h1 {
     background: #ffffff;
     left: 4%;
     padding: 40px 0;
-    font-family: ‘Roboto mono’,monospace;
+    font-family: 'Roboto mono',monospace;
     color: #385170;
     font-size: 40px;
     display: flex;
@@ -130,6 +130,37 @@ h1 {
     width: 20px;
     height: 20px;
 }
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+    color: black;
+    text-decoration: none;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+    color: white;
+    box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+  }
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  .dropdown-content a {
+    display: block;
+    color: #000000;
+    padding: 5px;
+    text-decoration: none;
+    background-color: white;
+
+  }
+  .dropdown-content a:hover {
+    color: #FFFFFF;
+    background-color: wheat;
+  }
+
 
 /* Each button in the on-screen keyboard */
 .key {

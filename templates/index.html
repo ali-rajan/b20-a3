@@ -57,11 +57,6 @@
         <br>
         <button class="btn mt-3">Login</button>
     </form>
-    
-    <br>
-    <form action="/logout">
-        <button type="submit" name="logout">Logout</button>
-    </form>
 
     {% with messages = get_flashed_messages(category_filter=["login"]) %}
         {% if messages %}
