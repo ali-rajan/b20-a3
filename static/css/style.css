@@ -126,6 +126,11 @@ h1 {
     color: #385170;
 }
 
+#github-icon {
+    width: 20px;
+    height: 20px;
+}
+
 /* Each button in the on-screen keyboard */
 .key {
     height: 40px;
