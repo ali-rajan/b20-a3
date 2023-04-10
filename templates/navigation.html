@@ -36,11 +36,6 @@
         </div>
     </nav>
 
-
-
-
-
-
     {% block content %}
     {% endblock %}
 
@@ -49,21 +44,23 @@
         <source src="{{ url_for('static', filename='music/typing-click.mp3') }}" type="audio/mpeg"/>
     </audio>
 
+    <footer class="text-center text-white fixed-bottom">
+        <!-- Grid container -->
+        <div class="container p-4"></div>
+        <!-- Grid container -->
+
+        <br>
+        <div class="text-center p-3">
+            This page was made by Ali Rajan and Alykhan Versi
+        </div>
+        <br>
+        <p class="text-white" >Ali - 1009034386 ||| <a href="https://github.com/ali-rajan"><img
+        src="../static/images/githubicon.png" alt="github-icon" id="github-icon"></a></p>
+        <p class="text-white" >Alykhan - 1007192342 ||| <a href="https://github.com/alykhan02"><img
+        src="../static/images/githubicon.png" alt="github-icon" id="github-icon"></a></p>
+    </footer>
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
 </body>
-
-<footer class="text-center text-white fixed-bottom">
-    <!-- Grid container -->
-    <div class="container p-4"></div>
-    <!-- Grid container -->
-
-    <br>
-    <div class="text-center p-3">
-        This page was made by Ali Rajan and Alykhan Versi
-    </div>
-    <br>
-      <p class="text-white" >Ali - 1009034386 ||| <a href="https://github.com/ali-rajan"><img src="../static/images/githubicon.png" alt="github-icon" id="github-icon"></a></p>
-      <p class="text-white" >Alykhan - 1007192342 ||| <a href="https://github.com/alykhan02"><img src="../static/images/githubicon.png" alt="github-icon" id="github-icon"></a></p>
-</footer>
