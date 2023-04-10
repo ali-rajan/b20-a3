@@ -57,6 +57,6 @@ Some things to note:
 
     - The words are initially read from a text file and stored in the database if they are not present; this can take
       several minutes if the database is empty (or the file is not found)
-    - Flask SQLAlchemy stores the database file in different directories based on the operating system, which is why
-      the database file may not be found
+    - Flask SQLAlchemy stores the database file in different directories based on the operating system (e.g. /instance/
+      Windows, /var/main-instance/ for Mac), which is why the database file may not be found
     - If the words are already present in the database, it should not take too long for the website to launch
