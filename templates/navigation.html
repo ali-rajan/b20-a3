@@ -17,10 +17,30 @@
             <li class="nav-item"><a href="{{ url_for('add_word') }}">Add a Word</a></li>
             <li class="nav-item"><a href="{{ url_for('register') }}">Register</a></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a>{{ username_text }}</a></li>
-        </ul>
+
+        <div class="nav navbar-nav navbar-right">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            {{ username_text }}
+                <span class="caret"></span>
+            </button>
+
+            <!-- Filter dropdown -->
+            <div class="dropdown-menu dropdown-menu-right">
+                <li>
+                    <form action="/logout">
+                        <button class="btn btn-outline-secondary dropdown-item" type="submit" name="logout" aria-haspopup="true" aria-expanded="false">Log Out</button>
+                    </form>
+                </li>
+            </div>
+
+        </div>
     </nav>
+        
+    
+
+
+    
 
     {% block content %}
     {% endblock %}
