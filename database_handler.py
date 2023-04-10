@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from random import randint
-from sqlalchemy import exc, desc
+from sqlalchemy import exc, desc, or_
 from flask_bcrypt import Bcrypt
 
 database = SQLAlchemy()
@@ -186,9 +186,11 @@ def get_leaderboard_entries() -> list[Leaderboard]:
     return entries
 
 
-def get_filtered_leaderboard_entries(min_score: int, max_guesses: int) -> list[Leaderboard]:
-    """Return all the leaderboard entries with the specified filter options.
+def get_filtered_leaderboard_entries(search_text: str, min_score: int, max_guesses: int) -> list[Leaderboard]:
+    """Return all the leaderboard entries with the given search text and filter options.
 
+    :param search_text: The search text for the username and player ID.
+    :type search_text: str
     :param min_score: The minimum score for any entry to include.
     :type min_score: int
     :param max_guesses: The maximum number of guesses for any entry to include
@@ -197,9 +199,14 @@ def get_filtered_leaderboard_entries(min_score: int, max_guesses: int) -> list[L
     :rtype: list[Leaderboard]
     """
 
+    wildcard = "%" + str(search_text) + "%"
+    # Apply the filters
     entries = Leaderboard.query.filter(Leaderboard.score >= min_score, Leaderboard.guesses <= max_guesses)
-    entries = entries.order_by(desc(Leaderboard.score)).all()
-    return entries
+    # Find entries that contain the search text as a substring in some column (of either table)
+    entries = entries.join(Player).filter(or_(
+        Player.username.ilike(wildcard), or_(attribute.ilike(wildcard) for attribute in Leaderboard.__table__.columns)
+    ))
+    return entries.order_by(desc(Leaderboard.score)).all()
 
 
 ##### Functions for the word tables #####

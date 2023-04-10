@@ -144,9 +144,10 @@ def leaderboard_search():
     """Render the leaderboard page with the specified filters.
     """
 
+    search_text = request.form["search-text"]
     min_score = request.form["min-score"]
     max_guesses = request.form["max-guesses"]
-    filtered_entries = get_filtered_leaderboard_entries(min_score, max_guesses)
+    filtered_entries = get_filtered_leaderboard_entries(search_text, min_score, max_guesses)
     return render_template("leaderboard.html", leaderboard_entries=filtered_entries, username_text=get_username_text())
 
 
@@ -161,21 +162,6 @@ def username_filter(player_id: int) -> str:
     """
 
     return get_username(player_id)
-
-
-@app.template_filter()
-def player_id_filter(player_id: int) -> str:
-    """Flask filter to display a formatted version of the given player ID with padding zeros and spaces.
-
-    :param player_id: The player's ID.
-    :type player_id: int
-    :return: A formatted string of the player ID.
-    :rtype: str
-    """
-
-    formatted_str = "%09d" % player_id
-    spaced_str = formatted_str[:3] + " " + formatted_str[3: 6] + " " + formatted_str[6: 9]
-    return spaced_str
 
 
 @app.route("/add_word", methods=["GET", "POST"])
@@ -222,10 +208,10 @@ def compute_score(time: int, guesses: int) -> int:
 
     max_guesses = 6
     zero_score_time = 300000    # After 5 minutes, the score is zero regardless of whether the user guesses the word
-    if time >= zero_score_time or guesses >= max_guesses:
+    if time >= zero_score_time or guesses > max_guesses:
         return 0
     # This formula was made to reward taking less time exponentially and using less guesses linearly
-    multiplier = max_guesses - guesses
+    multiplier = max_guesses + 1 - guesses
     time_score = 2 ** ((zero_score_time - time) / (20000))
     return int(multiplier * time_score)
 
