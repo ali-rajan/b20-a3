@@ -17,8 +17,10 @@ img {
     color: #385170;
 }
 
-.navbar-right {
+#logout-dropdown {
+    padding-top: 0.55em;
     margin-right: 0.5em;
+
 }
 
 .list-group-item {
