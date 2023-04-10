@@ -50,4 +50,14 @@
         <button class="btn btn-lg btn-secondary btn-block" type="submit">Log in</button>
     </form>
 
+    <div class="messages">
+        {% with messages = get_flashed_messages(category_filter=["login"]) %}
+            {% if messages %}
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
 {% endblock %}
