@@ -6,13 +6,13 @@
     <form action="/leaderboard/search" method="POST">
         <div class="input-group mb-3">
             <!-- Search bar -->
-            <input type="text" class="form-control" placeholder="Search username/player ID">
+            <input name="search-text" type="text" class="form-control" placeholder="Search leaderboard entries">
 
             <div class="input-group-btn">
                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                     Filters
-                    <span class="caret"></span>
+                    <!-- <span class="caret"></span> -->
                 </button>
 
                 <!-- Filter dropdown -->
@@ -56,7 +56,7 @@
             {% for entry in leaderboard_entries %}
             <tr>
                 <td>{{ entry.player_id | username_filter }}</td>
-                <td>{{ entry.player_id | player_id_filter }}</td>
+                <td>{{ entry.player_id}}</td>
                 <td>{{ entry.score }}</td>
                 <td>{{ entry.time }}</td>
                 <td>{{ entry.guesses }}</td>

@@ -17,18 +17,14 @@
     <p>Green means that the letter is in the right position</p>
     <img src="{{ url_for('static', filename='images/correct-placement.png') }}" id="game-img" class="img-thumbnail"
     alt="correct_placement">
-    <br>
 
     <p>Yellow means that the letter is in the word but not in the right position</p>
     <img src="{{ url_for('static', filename='images/incorrect-placement.png') }}" id="game-img" class="img-thumbnail"
     alt="incorrect_placement">
-    <br>
 
     <p>Red means that the letter is not in the word at all</p>
     <img src="{{ url_for('static', filename='images/incorrect-everything.png') }}" id="game-img" class="img-thumbnail"
     alt="incorrect_everything">
-    <br>
-    <br>
 
     <form action="/game">
         <button class="btn btn-primary" id="start-button">Start</button>
@@ -47,30 +43,13 @@
     <form class="form-signin" action="/login" method="POST">
         <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
 
-        <input class="form-control" type="text" name="username" id="userName" placeholder="Username" required
-        autofocus>
+        <input class="form-control" type="text" name="username" id="userName" placeholder="Username" required>
         <input class="form-control" type="password" name="password" id="pwd" placeholder="Password" required>
-        <small class="form-text text-muted">Your username and password must only contain alphanumeric
-        characters.</small>
+        <small class="form-text text-muted">Sign in to start playing</small>
 
         <button class="btn btn-lg btn-secondary btn-block" type="submit">Log in</button>
     </form>
 
-    <!-- <form class="p-3 mt-3" action="/login" method="POST">
-        <div class="form-field d-flex align-items-center">
-            <span class="far fa-user"></span>
-            <input type="text" name="username" id="userName" placeholder="Username" required>
-        </div>
-        <br>
-        <div class="form-field d-flex align-items-center">
-            <span class="fas fa-key"></span>
-            <input type="password" name="password" id="pwd" placeholder="Password" required>
-        </div>
-        <br>
-        <button class="btn mt-3">Login</button>
-    </form> -->
-
-    <br>
     <form action="/logout">
         <button type="submit" name="logout">Logout</button>
     </form>
@@ -79,7 +58,7 @@
         {% with messages = get_flashed_messages(category_filter=["login"]) %}
             {% if messages %}
                 {% for message in messages %}
-                <p>{{ message }}</p>
+                <h3>{{ message }}</h3>
                 {% endfor %}
             {% endif %}
         {% endwith %}
