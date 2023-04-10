@@ -9,10 +9,6 @@
             <button class="btn btn-primary" type="submit">Submit</button>
         </div>
     </form>
-    <!-- <form action="/add_word" method="POST">
-        <input type="text" name="word" required placeholder="Word">
-        <input name="submit" type="button" value="Submit">
-    </form> -->
 
     <div class="messages">
         {% with messages = get_flashed_messages(category_filter=["word_added"]) %}
